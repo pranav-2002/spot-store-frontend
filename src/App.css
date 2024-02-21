@@ -1,0 +1,3 @@
+.productCardWrapper::-webkit-scrollbar {
+    display: none;
+}

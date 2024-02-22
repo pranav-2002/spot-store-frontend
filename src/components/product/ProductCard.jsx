@@ -1,7 +1,8 @@
 import React from "react";
 import { Button, Card } from "flowbite-react";
+import { Link } from "react-router-dom";
 
-const ProductCard = ({ name, price, imageUrl }) => {
+const ProductCard = ({ id, name, price, imageUrl }) => {
   return (
     <div className="mr-6 flex-none w-72">
       <Card className="h-full">
@@ -20,9 +21,11 @@ const ProductCard = ({ name, price, imageUrl }) => {
             <span className="text-xl font-bold text-gray-900 dark:text-white">
               ₹{price}
             </span>
-            <Button size={"xs"} color="blue">
-              View more
-            </Button>
+            <Link to={`/product/${id}`}>
+              <Button size={"xs"} color="blue">
+                View more
+              </Button>
+            </Link>
           </div>
         </div>
       </Card>

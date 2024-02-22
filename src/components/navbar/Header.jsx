@@ -60,10 +60,10 @@ const Header = () => {
         <NavbarToggle />
       </div>
       <NavbarCollapse>
-        <NavbarLink href="#" active>
+        <NavbarLink as={Link} to="/" active>
           Home
         </NavbarLink>
-        <NavbarLink href="#">
+        <NavbarLink>
           <Dropdown arrowIcon={true} inline={true} label="Categories">
             <DropdownItem>Electronics</DropdownItem>
             <DropdownItem>Bicycles</DropdownItem>
@@ -73,7 +73,9 @@ const Header = () => {
             <DropdownItem>Gym & Fitness</DropdownItem>
           </Dropdown>
         </NavbarLink>
-        <NavbarLink href="#">Products</NavbarLink>
+        <NavbarLink as={Link} to="/products">
+          Products
+        </NavbarLink>
         <NavbarLink href="#">Support</NavbarLink>
       </NavbarCollapse>
     </Navbar>

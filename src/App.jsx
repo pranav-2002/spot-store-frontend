@@ -8,6 +8,8 @@ import ProductCategories from "./components/home/products/ProductCategories";
 import PopularProducts from "./components/home/products/PopularProducts";
 import Login from "./components/login/Login";
 import SignUp from "./components/signup/SignUp";
+import ProductDetails from "./components/product/ProductDetails";
+import AllProducts from "./components/product/AllProducts";
 
 function App() {
   return (
@@ -27,7 +29,9 @@ function App() {
             }
           />
           <Route path="/login" element={<Login />} />
-          <Route path="/sign-up" element={<SignUp />}></Route>
+          <Route path="/sign-up" element={<SignUp />} />
+          <Route path="/products" element={<AllProducts />} />
+          <Route path="/product/:productId" element={<ProductDetails />} />
         </Routes>
       </div>
     </>

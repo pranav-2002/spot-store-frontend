@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import {
   Avatar,
   Dropdown,
@@ -6,7 +7,6 @@ import {
   DropdownHeader,
   DropdownItem,
   Navbar,
-  NavbarBrand,
   NavbarCollapse,
   NavbarLink,
   NavbarToggle,
@@ -18,13 +18,13 @@ const Header = () => {
 
   return (
     <Navbar fluid rounded className="sticky top-0 z-50">
-      <NavbarBrand href="/">
+      <Link to={"/"}>
         <img
           src="https://d33wubrfki0l68.cloudfront.net/b891ad524a09a29d768b6ffdbf5f52bb0c6da7e1/47f53/img/vitspot-logo.png"
           className="mr-3 h-6 sm:h-9"
           alt="VITSpot Logo"
         />
-      </NavbarBrand>
+      </Link>
       <div className="flex md:order-2">
         {isLoggedIn && (
           <Dropdown
@@ -51,9 +51,11 @@ const Header = () => {
           </Dropdown>
         )}
         {!isLoggedIn && (
-          <Button gradientDuoTone="purpleToBlue" pill="true" className="mr-3">
-            Login
-          </Button>
+          <Link to={"/login"}>
+            <Button gradientDuoTone="purpleToBlue" pill="true" className="mr-3">
+              Login
+            </Button>
+          </Link>
         )}
         <NavbarToggle />
       </div>

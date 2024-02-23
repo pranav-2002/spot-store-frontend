@@ -1,38 +1,47 @@
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
+import { Suspense, lazy } from "react";
 
-import Header from "./components/navbar/Header";
-import Hero from "./components/home/hero/Hero";
-import ProductsHero from "./components/home/products/ProductsHero";
-import ProductCategories from "./components/home/products/ProductCategories";
-import PopularProducts from "./components/home/products/PopularProducts";
-import Login from "./components/login/Login";
-import SignUp from "./components/signup/SignUp";
-import ProductDetails from "./components/product/ProductDetails";
-import AllProducts from "./components/product/AllProducts";
+import Loader from "./components/utils/Loader";
+
+const Header = lazy(() => import("./components/navbar/Header"));
+const Home = lazy(() => import("./components/home/Home"));
+const Login = lazy(() => import("./components/login/Login"));
+const SignUp = lazy(() => import("./components/signup/SignUp"));
+const ProductDetails = lazy(() =>
+  import("./components/product/ProductDetails")
+);
+const AllProducts = lazy(() => import("./components/product/AllProducts"));
+const CategoriesPage = lazy(() =>
+  import("./components/categories/CategoriesPage")
+);
+const UserProfile = lazy(() => import("./components/user/UserProfile"));
+const UserProducts = lazy(() => import("./components/user/UserProducts"));
+const ProductEdit = lazy(() => import("./components/user/ProductEdit"));
+const CreateProduct = lazy(() => import("./components/user/CreateProduct"));
 
 function App() {
   return (
     <>
       <div className="app">
-        <Header />
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <>
-                <Hero />
-                <ProductsHero />
-                <ProductCategories />
-                <PopularProducts />
-              </>
-            }
-          />
-          <Route path="/login" element={<Login />} />
-          <Route path="/sign-up" element={<SignUp />} />
-          <Route path="/products" element={<AllProducts />} />
-          <Route path="/product/:productId" element={<ProductDetails />} />
-        </Routes>
+        <Suspense fallback={<Loader />}>
+          <Header />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/sign-up" element={<SignUp />} />
+            <Route path="/products" element={<AllProducts />} />
+            <Route path="/product/:productId" element={<ProductDetails />} />
+            <Route
+              path="/category/:categoryName"
+              element={<CategoriesPage />}
+            />
+            <Route path="/user/profile" element={<UserProfile />} />
+            <Route path="/user/products" element={<UserProducts />} />
+            <Route path="/product/edit/:productId" element={<ProductEdit />} />
+            <Route path="/user/product/create" element={<CreateProduct />} />
+          </Routes>
+        </Suspense>
       </div>
     </>
   );

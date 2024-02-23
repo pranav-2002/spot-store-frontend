@@ -1,0 +1,124 @@
+import React from "react";
+import { useParams } from "react-router-dom";
+
+import ProductCard from "../product/ProductCard";
+
+const CategoriesPage = () => {
+  const params = useParams();
+
+  const categoryName =
+    params.categoryName.charAt(0).toUpperCase() + params.categoryName.slice(1);
+
+  return (
+    <div>
+      <section className="bg-slate-100 pb-10">
+        <div className="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-10 lg:px-12">
+          <div className="inline-flex justify-between items-center py-1 px-1 mb-7 text-sm text-blue-700 bg-blue-100 rounded-full hover:bg-blue-200 cursor-pointer">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              className="w-6 h-6"
+            >
+              <path
+                fillRule="evenodd"
+                d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm-2.625 6c-.54 0-.828.419-.936.634a1.96 1.96 0 0 0-.189.866c0 .298.059.605.189.866.108.215.395.634.936.634.54 0 .828-.419.936-.634.13-.26.189-.568.189-.866 0-.298-.059-.605-.189-.866-.108-.215-.395-.634-.936-.634Zm4.314.634c.108-.215.395-.634.936-.634.54 0 .828.419.936.634.13.26.189.568.189.866 0 .298-.059.605-.189.866-.108.215-.395.634-.936.634-.54 0-.828-.419-.936-.634a1.96 1.96 0 0 1-.189-.866c0-.298.059-.605.189-.866Zm2.023 6.828a.75.75 0 1 0-1.06-1.06 3.75 3.75 0 0 1-5.304 0 .75.75 0 0 0-1.06 1.06 5.25 5.25 0 0 0 7.424 0Z"
+                clipRule="evenodd"
+              />
+            </svg>
+
+            <span className="text-sm font-bold mx-4 my-1">{categoryName}</span>
+          </div>
+          <h1 className="mb-4 text-3xl font-extrabold tracking-tight leading-none text-blue-900 md:text-3xl lg:text-4xl">
+            {categoryName} Central: Explore the World of {categoryName}
+          </h1>
+          <p className="mb-8 sm:mb-8 md:mb-4 lg:mb-0 xl:mb-0 text-lg font-normal text-blue-800 lg:text-xl sm:px-16 xl:px-48">
+            Your ultimate destination for all {categoryName}. Where
+            possibilities abound and discoveries await. Search for your products
+            below.
+          </p>
+        </div>
+
+        <div className="mx-auto max-w-4xl">
+          <form>
+            <label className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">
+              Search
+            </label>
+            <div className="relative">
+              <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                <svg
+                  className="w-4 h-4 text-gray-500 dark:text-gray-400"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                  />
+                </svg>
+              </div>
+              <input
+                type="search"
+                className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="Search..."
+                required
+              />
+              <button
+                type="submit"
+                className="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              >
+                Search
+              </button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <div className="productPageWrapper grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-3 mx-auto max-w-xs sm:max-w-2xl md:max-w-2xl lg:max-w-5xl xl:max-w-5xl 2xl:max-w-5xl mt-8">
+        <ProductCard
+          id="1"
+          name="Mac Book Pro 16 inches 128Tb 1"
+          price="50000"
+          imageUrl="https://images.hindustantimes.com/tech/img/2021/09/14/1600x900/WhatsApp_Image_2021-09-14_at_5.13.31_PM_1631623490905_1631623503195.jpeg"
+        />
+        <ProductCard
+          id="2"
+          name="Branded new cycle for sale in VIT"
+          price="8000"
+          imageUrl="https://apollo.olx.in/v1/files/7obd0fwvtyf01-IN/image;s=780x0;q=60"
+        />
+        <ProductCard
+          id="3"
+          name="Brand New Watch with water resistance"
+          price="4576"
+          imageUrl="https://apollo.olx.in/v1/files/rpeng8x7thmx-IN/image;s=780x0;q=60"
+        />
+        <ProductCard
+          id="4"
+          name="Mac Book Pro 16 inches 128Tb 1"
+          price="50000"
+          imageUrl="https://images.hindustantimes.com/tech/img/2021/09/14/1600x900/WhatsApp_Image_2021-09-14_at_5.13.31_PM_1631623490905_1631623503195.jpeg"
+        />
+        <ProductCard
+          id="5"
+          name="Branded new cycle for sale in VIT"
+          price="8000"
+          imageUrl="https://apollo.olx.in/v1/files/7obd0fwvtyf01-IN/image;s=780x0;q=60"
+        />
+        <ProductCard
+          id="6"
+          name="Brand New Watch with water resistance"
+          price="5023"
+          imageUrl="https://apollo.olx.in/v1/files/rpeng8x7thmx-IN/image;s=780x0;q=60"
+        />
+      </div>
+    </div>
+  );
+};
+
+export default CategoriesPage;

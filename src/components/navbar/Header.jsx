@@ -45,17 +45,31 @@ const Header = () => {
                 name@flowbite.com
               </span>
             </DropdownHeader>
-            <DropdownItem>Profile</DropdownItem>
+            <DropdownItem as={Link} to={"/user/profile"}>
+              Profile
+            </DropdownItem>
+            <DropdownDivider />
+            <DropdownItem as={Link} to={"/user/product/create"}>
+              Create Product
+            </DropdownItem>
+            <DropdownDivider />
+            <DropdownItem as={Link} to={"/user/products"}>
+              Your Products
+            </DropdownItem>
             <DropdownDivider />
             <DropdownItem>Sign out</DropdownItem>
           </Dropdown>
         )}
         {!isLoggedIn && (
-          <Link to={"/login"}>
-            <Button gradientDuoTone="purpleToBlue" pill="true" className="mr-3">
-              Login
-            </Button>
-          </Link>
+          <Button
+            as={Link}
+            to={"/login"}
+            gradientDuoTone="purpleToBlue"
+            pill="true"
+            className="mr-3"
+          >
+            Login
+          </Button>
         )}
         <NavbarToggle />
       </div>
@@ -65,12 +79,24 @@ const Header = () => {
         </NavbarLink>
         <NavbarLink>
           <Dropdown arrowIcon={true} inline={true} label="Categories">
-            <DropdownItem>Electronics</DropdownItem>
-            <DropdownItem>Bicycles</DropdownItem>
-            <DropdownItem>Bed & Mattresses</DropdownItem>
-            <DropdownItem>Books & Notes</DropdownItem>
-            <DropdownItem>Fashion</DropdownItem>
-            <DropdownItem>Gym & Fitness</DropdownItem>
+            <DropdownItem as={Link} to="/category/electronics">
+              Electronics
+            </DropdownItem>
+            <DropdownItem as={Link} to="/category/cycles">
+              Bicycles
+            </DropdownItem>
+            <DropdownItem as={Link} to="/category/mattresses">
+              Mattresses
+            </DropdownItem>
+            <DropdownItem as={Link} to="/category/books">
+              Books & Notes
+            </DropdownItem>
+            <DropdownItem as={Link} to="/category/fashion">
+              Fashion
+            </DropdownItem>
+            <DropdownItem as={Link} to="/category/fitness">
+              Gym & Fitness
+            </DropdownItem>
           </Dropdown>
         </NavbarLink>
         <NavbarLink as={Link} to="/products">

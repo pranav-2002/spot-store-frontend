@@ -1,8 +1,70 @@
-import React from "react";
-import { Button } from "flowbite-react";
+import React, { useState, useEffect } from "react";
+import { Button, Spinner } from "flowbite-react";
 import { Link } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { userSignUp } from "../../api/requests/auth/auth";
+import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
+  const navigate = useNavigate();
+  const token = Cookies.get("token");
+
+  useEffect(() => {
+    if (token) {
+      navigate("/");
+    }
+  }, []);
+
+  const [signUpData, setSignUpData] = useState({
+    email: "",
+    password: "",
+    confirmPassword: "",
+    firstName: "",
+    lastName: "",
+    registrationNumber: "",
+    phoneNumber: "",
+  });
+
+  const [isLoading, setIsLoading] = useState(false);
+
+  const validateEmail = (email) => {
+    const regex = /^[a-zA-Z]+\.[a-zA-Z]+\d{4}@vitstudent\.ac\.in$/;
+    return regex.test(email);
+  };
+
+  const handleSignUp = async (e) => {
+    e.preventDefault();
+    if (signUpData.password !== signUpData.confirmPassword) {
+      toast.error("passwords do not match!");
+    }
+    // else if (!validateEmail(signUpData.email)) {
+    //   toast.error("Please enter your VIT email only");
+    // }
+    else {
+      try {
+        setIsLoading(true);
+        const newUser = await userSignUp(signUpData);
+        toast.success("Sign In Successful. Please verify your email");
+        setIsLoading(false);
+        setSignUpData({
+          email: "",
+          password: "",
+          confirmPassword: "",
+          firstName: "",
+          lastName: "",
+          registrationNumber: "",
+          phoneNumber: "",
+        });
+      } catch (error) {
+        setIsLoading(false);
+        toast.error(error.response.data.message);
+        console.log(error);
+      }
+    }
+  };
+
   return (
     <section className="bg-gray-50 dark:bg-gray-900 p-8">
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-max lg:py-0">
@@ -19,7 +81,7 @@ const SignUp = () => {
             <h1 className="text-xl font-bold leading-tight tracking-tight text-blue-600 md:text-2xl dark:text-white">
               Register your account
             </h1>
-            <form className="space-y-4 md:space-y-6">
+            <form className="space-y-4 md:space-y-6" onSubmit={handleSignUp}>
               <div>
                 <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                   Your VIT email
@@ -30,6 +92,13 @@ const SignUp = () => {
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="VIT email"
                   required
+                  value={signUpData.email}
+                  onChange={(e) =>
+                    setSignUpData({
+                      ...signUpData,
+                      [e.target.name]: e.target.value,
+                    })
+                  }
                 />
               </div>
               <div>
@@ -38,10 +107,17 @@ const SignUp = () => {
                 </label>
                 <input
                   type="text"
-                  name="first name"
+                  name="firstName"
                   placeholder="first name"
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   required
+                  value={signUpData.firstName}
+                  onChange={(e) =>
+                    setSignUpData({
+                      ...signUpData,
+                      [e.target.name]: e.target.value,
+                    })
+                  }
                 />
               </div>
               <div>
@@ -50,10 +126,17 @@ const SignUp = () => {
                 </label>
                 <input
                   type="text"
-                  name="last name"
+                  name="lastName"
                   placeholder="last name"
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   required
+                  value={signUpData.lastName}
+                  onChange={(e) =>
+                    setSignUpData({
+                      ...signUpData,
+                      [e.target.name]: e.target.value,
+                    })
+                  }
                 />
               </div>
               <div>
@@ -62,10 +145,17 @@ const SignUp = () => {
                 </label>
                 <input
                   type="text"
-                  name="registration number"
+                  name="registrationNumber"
                   placeholder="registration number"
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   required
+                  value={signUpData.registrationNumber}
+                  onChange={(e) =>
+                    setSignUpData({
+                      ...signUpData,
+                      [e.target.name]: e.target.value.toUpperCase(),
+                    })
+                  }
                 />
               </div>
               <div>
@@ -74,10 +164,17 @@ const SignUp = () => {
                 </label>
                 <input
                   type="tel"
-                  name="phone number"
+                  name="phoneNumber"
                   placeholder="phone number"
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   required
+                  value={signUpData.phoneNumber}
+                  onChange={(e) =>
+                    setSignUpData({
+                      ...signUpData,
+                      [e.target.name]: e.target.value,
+                    })
+                  }
                 />
               </div>
               <div>
@@ -90,6 +187,13 @@ const SignUp = () => {
                   placeholder="password"
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   required
+                  value={signUpData.password}
+                  onChange={(e) =>
+                    setSignUpData({
+                      ...signUpData,
+                      [e.target.name]: e.target.value,
+                    })
+                  }
                 />
               </div>
               <div>
@@ -98,18 +202,45 @@ const SignUp = () => {
                 </label>
                 <input
                   type="password"
-                  name="confirm-password"
+                  name="confirmPassword"
                   placeholder="confirm password"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  className={
+                    signUpData.password === signUpData.confirmPassword
+                      ? "bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                      : "focus:border-primary-600 block w-full p-2.5 bg-red-50 border border-red-500 text-red-900 placeholder-red-700 text-sm rounded-lg focus:ring-red-500"
+                  }
                   required
+                  value={signUpData.confirmPassword}
+                  onChange={(e) =>
+                    setSignUpData({
+                      ...signUpData,
+                      [e.target.name]: e.target.value,
+                    })
+                  }
                 />
+                {signUpData.password !== signUpData.confirmPassword && (
+                  <p className="mt-2 text-sm text-red-600 dark:text-red-500">
+                    <span className="font-medium">Oh, snapp!</span> Password and
+                    Confirm Password don't match
+                  </p>
+                )}
               </div>
               <Button
                 className="w-full"
                 gradientDuoTone="purpleToBlue"
                 type="submit"
               >
-                Sign Up
+                {isLoading ? (
+                  <>
+                    <Spinner
+                      aria-label="Alternate spinner button example"
+                      size="sm"
+                    />
+                    <span className="pl-3">Please wait...</span>
+                  </>
+                ) : (
+                  <> Sign Up</>
+                )}
               </Button>
               <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                 Already have an account?{" "}
@@ -124,6 +255,19 @@ const SignUp = () => {
           </div>
         </div>
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition:Bounce
+      />
     </section>
   );
 };

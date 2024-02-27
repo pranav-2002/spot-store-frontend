@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React from "react";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Avatar,
   Dropdown,
@@ -12,12 +12,21 @@ import {
   NavbarToggle,
   Button,
 } from "flowbite-react";
+import Cookies from "js-cookie";
+import { jwtDecode } from "jwt-decode";
 
 const Header = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
+
+  const token = Cookies.get("token");
+
+  const handleSignOut = () => {
+    Cookies.remove("token");
+    navigate("/login");
+  };
 
   return (
-    <Navbar fluid rounded className="sticky top-0 z-50">
+    <Navbar fluid rounded className="sticky top-0 z-50 shadow-md rounded-sm">
       <Link to={"/"}>
         <img
           src="https://d33wubrfki0l68.cloudfront.net/b891ad524a09a29d768b6ffdbf5f52bb0c6da7e1/47f53/img/vitspot-logo.png"
@@ -26,23 +35,30 @@ const Header = () => {
         />
       </Link>
       <div className="flex md:order-2">
-        {isLoggedIn && (
+        {token && (
           <Dropdown
             arrowIcon={false}
             inline
             label={
               <Avatar
-                alt="User settings"
-                img="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+                alt="Spot Store User"
                 rounded
+                bordered
                 className="mr-3"
+                placeholderInitials={
+                  jwtDecode(token).firstName[0].toUpperCase() +
+                  jwtDecode(token).lastName[0].toUpperCase()
+                }
+                color={"purple"}
               />
             }
           >
             <DropdownHeader>
-              <span className="block text-sm">Bonnie Green</span>
+              <span className="block text-sm">
+                {jwtDecode(token).firstName + " " + jwtDecode(token).lastName}
+              </span>
               <span className="block truncate text-sm font-medium">
-                name@flowbite.com
+                {jwtDecode(token).email}
               </span>
             </DropdownHeader>
             <DropdownItem as={Link} to={"/user/profile"}>
@@ -57,10 +73,10 @@ const Header = () => {
               Your Products
             </DropdownItem>
             <DropdownDivider />
-            <DropdownItem>Sign out</DropdownItem>
+            <DropdownItem onClick={handleSignOut}>Sign out</DropdownItem>
           </Dropdown>
         )}
-        {!isLoggedIn && (
+        {!token && (
           <Button
             as={Link}
             to={"/login"}
@@ -78,7 +94,12 @@ const Header = () => {
           Home
         </NavbarLink>
         <NavbarLink>
-          <Dropdown arrowIcon={true} inline={true} label="Categories">
+          <Dropdown
+            as={Button}
+            arrowIcon={true}
+            inline={true}
+            label="Categories"
+          >
             <DropdownItem as={Link} to="/category/electronics">
               Electronics
             </DropdownItem>
@@ -102,7 +123,7 @@ const Header = () => {
         <NavbarLink as={Link} to="/products">
           Products
         </NavbarLink>
-        <NavbarLink href="#">Support</NavbarLink>
+        <NavbarLink href="/support">Support</NavbarLink>
       </NavbarCollapse>
     </Navbar>
   );

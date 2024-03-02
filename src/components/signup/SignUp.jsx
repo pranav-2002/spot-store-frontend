@@ -46,7 +46,7 @@ const SignUp = () => {
       try {
         setIsLoading(true);
         const newUser = await userSignUp(signUpData);
-        toast.success("Sign In Successful. Please verify your email");
+        toast.success(newUser.message);
         setIsLoading(false);
         setSignUpData({
           email: "",

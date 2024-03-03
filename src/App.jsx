@@ -4,6 +4,7 @@ import { Suspense, lazy } from "react";
 
 import Loader from "./components/utils/Loader";
 import PrivateRoutes from "./components/routes/PrivateRoutes";
+import ContactSupport from "./components/support/ContactSupport";
 
 const Header = lazy(() => import("./components/navbar/Header"));
 const Home = lazy(() => import("./components/home/Home"));
@@ -37,6 +38,7 @@ function App() {
               path="/category/:categoryName"
               element={<CategoriesPage />}
             />
+            <Route path="/support" element={<ContactSupport />} />
             <Route element={<PrivateRoutes />}>
               <Route path="/user/profile" element={<UserProfile />} />
               <Route path="/user/products" element={<UserProducts />} />

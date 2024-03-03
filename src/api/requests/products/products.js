@@ -24,3 +24,8 @@ export const markProductAsSold = async (data, token) => {
   const res = await axiosRequest("products/sold", "PATCH", data, token);
   return res;
 };
+
+export const createNewProduct = async (data, token) => {
+  const res = await axiosRequest("/products/create", "POST", data, token);
+  return res;
+};

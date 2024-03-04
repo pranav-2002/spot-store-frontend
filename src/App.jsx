@@ -3,6 +3,9 @@ import { Routes, Route } from "react-router-dom";
 import { Suspense, lazy } from "react";
 
 import Loader from "./components/utils/Loader";
+import PrivateRoutes from "./components/routes/PrivateRoutes";
+import ContactSupport from "./components/support/ContactSupport";
+import PageNotFound from "./components/home/PageNotFound/PageNotFound";
 
 const Header = lazy(() => import("./components/navbar/Header"));
 const Home = lazy(() => import("./components/home/Home"));
@@ -36,10 +39,18 @@ function App() {
               path="/category/:categoryName"
               element={<CategoriesPage />}
             />
-            <Route path="/user/profile" element={<UserProfile />} />
-            <Route path="/user/products" element={<UserProducts />} />
-            <Route path="/product/edit/:productId" element={<ProductEdit />} />
-            <Route path="/user/product/create" element={<CreateProduct />} />
+            <Route path="/support" element={<ContactSupport />} />
+            <Route element={<PrivateRoutes />}>
+              <Route path="/user/profile" element={<UserProfile />} />
+              <Route path="/user/products" element={<UserProducts />} />
+              <Route
+                path="/product/edit/:productId"
+                element={<ProductEdit />}
+              />
+              <Route path="/user/product/create" element={<CreateProduct />} />
+            </Route>
+            <Route path="/404" element={<PageNotFound />} />
+            <Route path="*" element={<PageNotFound />} />
           </Routes>
         </Suspense>
       </div>

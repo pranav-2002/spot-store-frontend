@@ -1,23 +1,48 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ProductCard from "./ProductCard";
+import { allProducts } from "../../api/requests/products/products";
+import Skeleton from "../utils/Skeleton";
 
 const AllProducts = () => {
+  const [products, setProducts] = useState([]);
   const [searchText, setSearchText] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
 
+  const getAllProducts = async () => {
+    try {
+      const result = await allProducts();
+      setProducts(result.products);
+      setSearchResults(result.products);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getAllProducts();
+  }, []);
+
+  // Search Filter
   const handleSearch = (e) => {
-    e.preventDefault;
+    e.preventDefault();
+    const filteredProducts = products.filter((product) =>
+      product.title.toLowerCase().includes(searchText.toLowerCase())
+    );
+    setSearchResults(filteredProducts);
   };
 
   return (
     <div>
       <div className="bg-slate-50 pb-8 mb-6">
-        <div className="py-8 px-4 mx-auto max-w-2xl lg:py-8">
+        {/* Search form */}
+        <form
+          onSubmit={handleSearch}
+          className="py-8 px-4 mx-auto max-w-2xl lg:py-8"
+        >
           <h1 className="text-3xl font-bold text-blue-600 mb-6">
             Search for the products you're looking for !
           </h1>
-        </div>
-        <div className="mx-auto max-w-4xl">
-          <form onSubmit={handleSearch}>
+          <div className="mx-auto max-w-4xl">
             <label className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">
               Search
             </label>
@@ -43,7 +68,6 @@ const AllProducts = () => {
                 type="search"
                 className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Search..."
-                required
                 value={searchText}
                 onChange={(e) => setSearchText(e.target.value)}
               />
@@ -54,47 +78,34 @@ const AllProducts = () => {
                 Search
               </button>
             </div>
-          </form>
-        </div>
+          </div>
+        </form>
       </div>
 
+      {/* Product cards */}
       <div className="productPageWrapper grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-3 mx-auto max-w-xs sm:max-w-2xl md:max-w-2xl lg:max-w-5xl xl:max-w-5xl 2xl:max-w-5xl mt-8">
-        <ProductCard
-          id="1"
-          name="Mac Book Pro 16 inches 128Tb 1"
-          price="50000"
-          imageUrl="https://images.hindustantimes.com/tech/img/2021/09/14/1600x900/WhatsApp_Image_2021-09-14_at_5.13.31_PM_1631623490905_1631623503195.jpeg"
-        />
-        <ProductCard
-          id="2"
-          name="Branded new cycle for sale in VIT"
-          price="8000"
-          imageUrl="https://apollo.olx.in/v1/files/7obd0fwvtyf01-IN/image;s=780x0;q=60"
-        />
-        <ProductCard
-          id="3"
-          name="Brand New Watch with water resistance"
-          price="4576"
-          imageUrl="https://apollo.olx.in/v1/files/rpeng8x7thmx-IN/image;s=780x0;q=60"
-        />
-        <ProductCard
-          id="4"
-          name="Mac Book Pro 16 inches 128Tb 1"
-          price="50000"
-          imageUrl="https://images.hindustantimes.com/tech/img/2021/09/14/1600x900/WhatsApp_Image_2021-09-14_at_5.13.31_PM_1631623490905_1631623503195.jpeg"
-        />
-        <ProductCard
-          id="5"
-          name="Branded new cycle for sale in VIT"
-          price="8000"
-          imageUrl="https://apollo.olx.in/v1/files/7obd0fwvtyf01-IN/image;s=780x0;q=60"
-        />
-        <ProductCard
-          id="6"
-          name="Brand New Watch with water resistance"
-          price="5023"
-          imageUrl="https://apollo.olx.in/v1/files/rpeng8x7thmx-IN/image;s=780x0;q=60"
-        />
+        {products.length > 0 && searchResults.length > 0 ? (
+          searchResults.map((product) => (
+            <ProductCard
+              id={product._id}
+              name={product.title}
+              price={product.price}
+              imageUrl={product.primaryImage.imgUrl}
+              key={product._id}
+            />
+          ))
+        ) : products.length > 0 && searchResults.length === 0 ? (
+          <h1 className="text-3xl font-bold text-blue-600 mb-6 text-center">
+            No Products Found
+          </h1>
+        ) : (
+          // Render skeletons if no products are found
+          <>
+            <Skeleton />
+            <Skeleton />
+            <Skeleton />
+          </>
+        )}
       </div>
     </div>
   );

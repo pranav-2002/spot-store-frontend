@@ -29,3 +29,18 @@ export const createNewProduct = async (data, token) => {
   const res = await axiosRequest("/products/create", "POST", data, token);
   return res;
 };
+
+export const editProductDetails = async (id, data, token) => {
+  const res = await axiosRequest(
+    `/products/update/${id}`,
+    "PATCH",
+    data,
+    token
+  );
+  return res;
+};
+
+export const getProductsByCategory = async (categoryName) => {
+  const res = await axiosRequest(`/products/category/${categoryName}`, "GET");
+  return res;
+};

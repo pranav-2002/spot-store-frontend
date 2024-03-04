@@ -2,7 +2,8 @@ import React from "react";
 import Hero from "./hero/Hero";
 import ProductsHero from "./products/ProductsHero";
 import ProductCategories from "./products/ProductCategories";
-import PopularProducts from "./products/PopularProducts";
+import Privacy from "./privacy/Privacy";
+// import PopularProducts from "./products/PopularProducts";
 
 const Home = () => {
   return (
@@ -10,7 +11,8 @@ const Home = () => {
       <Hero />
       <ProductsHero />
       <ProductCategories />
-      <PopularProducts />
+      <Privacy />
+      {/* <PopularProducts /> */}
     </>
   );
 };

@@ -1,13 +1,47 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-
 import ProductCard from "../product/ProductCard";
+import { getProductsByCategory } from "../../api/requests/products/products";
+import Skeleton from "../utils/Skeleton";
+import { useNavigate } from "react-router-dom";
 
 const CategoriesPage = () => {
   const params = useParams();
 
+  const navigate = useNavigate();
+
+  const [productsData, setProductsData] = useState([]);
+  const [searchText, setSearchText] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+
   const categoryName =
     params.categoryName.charAt(0).toUpperCase() + params.categoryName.slice(1);
+
+  const fetchProductsByCategory = async () => {
+    try {
+      const products = await getProductsByCategory(params.categoryName);
+      setProductsData(products.products);
+      setSearchResults(products.products);
+    } catch (error) {
+      if (error.response.data.message === "Bad Request") {
+        navigate("/404");
+      }
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchProductsByCategory();
+  }, [params.categoryName]);
+
+  // Search Filter
+  const handleSearch = (e) => {
+    e.preventDefault();
+    const filteredProducts = productsData.filter((product) =>
+      product.title.toLowerCase().includes(searchText.toLowerCase())
+    );
+    setSearchResults(filteredProducts);
+  };
 
   return (
     <div>
@@ -33,14 +67,14 @@ const CategoriesPage = () => {
             {categoryName} Central: Explore the World of {categoryName}
           </h1>
           <p className="mb-8 sm:mb-8 md:mb-4 lg:mb-0 xl:mb-0 text-lg font-normal text-blue-800 lg:text-xl sm:px-16 xl:px-48">
-            Your ultimate destination for all {categoryName}. Where
-            possibilities abound and discoveries await. Search for your products
-            below.
+            Your ultimate destination for all{" "}
+            <span className="font-bold">{categoryName}</span> in VIT. Search for
+            your products below.
           </p>
         </div>
 
         <div className="mx-auto max-w-4xl">
-          <form>
+          <form onSubmit={handleSearch}>
             <label className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">
               Search
             </label>
@@ -66,7 +100,8 @@ const CategoriesPage = () => {
                 type="search"
                 className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Search..."
-                required
+                value={searchText}
+                onChange={(e) => setSearchText(e.target.value)}
               />
               <button
                 type="submit"
@@ -80,42 +115,28 @@ const CategoriesPage = () => {
       </section>
 
       <div className="productPageWrapper grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-3 mx-auto max-w-xs sm:max-w-2xl md:max-w-2xl lg:max-w-5xl xl:max-w-5xl 2xl:max-w-5xl mt-8">
-        <ProductCard
-          id="1"
-          name="Mac Book Pro 16 inches 128Tb 1"
-          price="50000"
-          imageUrl="https://images.hindustantimes.com/tech/img/2021/09/14/1600x900/WhatsApp_Image_2021-09-14_at_5.13.31_PM_1631623490905_1631623503195.jpeg"
-        />
-        <ProductCard
-          id="2"
-          name="Branded new cycle for sale in VIT"
-          price="8000"
-          imageUrl="https://apollo.olx.in/v1/files/7obd0fwvtyf01-IN/image;s=780x0;q=60"
-        />
-        <ProductCard
-          id="3"
-          name="Brand New Watch with water resistance"
-          price="4576"
-          imageUrl="https://apollo.olx.in/v1/files/rpeng8x7thmx-IN/image;s=780x0;q=60"
-        />
-        <ProductCard
-          id="4"
-          name="Mac Book Pro 16 inches 128Tb 1"
-          price="50000"
-          imageUrl="https://images.hindustantimes.com/tech/img/2021/09/14/1600x900/WhatsApp_Image_2021-09-14_at_5.13.31_PM_1631623490905_1631623503195.jpeg"
-        />
-        <ProductCard
-          id="5"
-          name="Branded new cycle for sale in VIT"
-          price="8000"
-          imageUrl="https://apollo.olx.in/v1/files/7obd0fwvtyf01-IN/image;s=780x0;q=60"
-        />
-        <ProductCard
-          id="6"
-          name="Brand New Watch with water resistance"
-          price="5023"
-          imageUrl="https://apollo.olx.in/v1/files/rpeng8x7thmx-IN/image;s=780x0;q=60"
-        />
+        {productsData.length > 0 && searchResults.length > 0 ? (
+          searchResults.map((product) => (
+            <ProductCard
+              id={product._id}
+              name={product.title}
+              price={product.price}
+              imageUrl={product.primaryImage.imgUrl}
+              key={product._id}
+            />
+          ))
+        ) : productsData.length > 0 && searchResults.length === 0 ? (
+          <h1 className="text-3xl font-bold text-blue-600 mb-6 text-center">
+            No Products Found
+          </h1>
+        ) : (
+          // Render skeletons if no products are found
+          <>
+            <Skeleton />
+            <Skeleton />
+            <Skeleton />
+          </>
+        )}
       </div>
     </div>
   );

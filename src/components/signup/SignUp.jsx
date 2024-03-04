@@ -38,11 +38,9 @@ const SignUp = () => {
     e.preventDefault();
     if (signUpData.password !== signUpData.confirmPassword) {
       toast.error("passwords do not match!");
-    }
-    // else if (!validateEmail(signUpData.email)) {
-    //   toast.error("Please enter your VIT email only");
-    // }
-    else {
+    } else if (!validateEmail(signUpData.email)) {
+      toast.error("Please enter your VIT email only");
+    } else {
       try {
         setIsLoading(true);
         const newUser = await userSignUp(signUpData);

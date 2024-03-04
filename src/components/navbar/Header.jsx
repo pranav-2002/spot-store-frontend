@@ -10,6 +10,7 @@ import {
   NavbarCollapse,
   NavbarLink,
   NavbarToggle,
+  NavbarBrand,
   Button,
 } from "flowbite-react";
 import Cookies from "js-cookie";
@@ -25,15 +26,17 @@ const Header = () => {
     navigate("/login");
   };
 
+  const location = window.location.href.split("/")[3];
+
   return (
     <Navbar fluid rounded className="sticky top-0 z-50 shadow-md rounded-sm">
-      <Link to={"/"}>
+      <NavbarBrand as={Link} to={"/"}>
         <img
           src="https://d33wubrfki0l68.cloudfront.net/b891ad524a09a29d768b6ffdbf5f52bb0c6da7e1/47f53/img/vitspot-logo.png"
           className="mr-3 h-6 sm:h-9"
           alt="VITSpot Logo"
         />
-      </Link>
+      </NavbarBrand>
       <div className="flex md:order-2">
         {token && (
           <Dropdown
@@ -70,7 +73,7 @@ const Header = () => {
             </DropdownItem>
             <DropdownDivider />
             <DropdownItem as={Link} to={"/user/products"}>
-              Your Products
+              My Products
             </DropdownItem>
             <DropdownDivider />
             <DropdownItem onClick={handleSignOut}>Sign out</DropdownItem>
@@ -90,10 +93,10 @@ const Header = () => {
         <NavbarToggle />
       </div>
       <NavbarCollapse>
-        <NavbarLink as={Link} to="/" active>
+        <NavbarLink as={Link} to="/" active={location === "" ? true : false}>
           Home
         </NavbarLink>
-        <NavbarLink>
+        <NavbarLink active={location === "category" ? true : false}>
           <Dropdown
             as={Button}
             arrowIcon={true}
@@ -103,7 +106,7 @@ const Header = () => {
             <DropdownItem as={Link} to="/category/electronics">
               Electronics
             </DropdownItem>
-            <DropdownItem as={Link} to="/category/cycles">
+            <DropdownItem as={Link} to="/category/bicycles">
               Bicycles
             </DropdownItem>
             <DropdownItem as={Link} to="/category/mattresses">
@@ -120,10 +123,20 @@ const Header = () => {
             </DropdownItem>
           </Dropdown>
         </NavbarLink>
-        <NavbarLink as={Link} to="/products">
+        <NavbarLink
+          as={Link}
+          to="/products"
+          active={location === "products" ? true : false}
+        >
           Products
         </NavbarLink>
-        <NavbarLink href="/support">Support</NavbarLink>
+        <NavbarLink
+          as={Link}
+          to="/support"
+          active={location === "support" ? true : false}
+        >
+          Support
+        </NavbarLink>
       </NavbarCollapse>
     </Navbar>
   );

@@ -25,8 +25,10 @@ const ProductDetails = () => {
 
   const getUserData = async () => {
     try {
-      const user = await getUserById(productData.owner_id);
-      setOwnerName(user.user.firstName + " " + user.user.lastName);
+      if (productData.owner_id) {
+        const user = await getUserById(productData.owner_id);
+        setOwnerName(user.user.firstName + " " + user.user.lastName);
+      }
     } catch (error) {
       console.log(error);
     }

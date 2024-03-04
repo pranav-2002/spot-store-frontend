@@ -1,6 +1,6 @@
 import React from "react";
-import ProductHeroImage from "../../../assets/images/product-hero.jpg";
 import { Button } from "flowbite-react";
+import { Link } from "react-router-dom";
 
 const ProductsHero = () => {
   return (
@@ -16,13 +16,17 @@ const ProductsHero = () => {
         <Button
           className="w-full lg:w-fit xl:w-fit"
           gradientDuoTone="purpleToBlue"
+          as={Link}
+          to={"/user/product/create"}
         >
           Sell your product
         </Button>
       </div>
       <div>
         <img
-          src={ProductHeroImage}
+          src={
+            "https://firebasestorage.googleapis.com/v0/b/spot-store-37a5a.appspot.com/o/spot-store-assets%2Fimages%2Fproduct-hero.jpg?alt=media&token=25f541e8-88f9-4dd0-9b1d-757fbf3a889a"
+          }
           alt="hero logo"
           width="425px"
           className="mt-4"

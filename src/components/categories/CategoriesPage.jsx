@@ -23,10 +23,10 @@ const CategoriesPage = () => {
       setProductsData(products.products);
       setSearchResults(products.products);
     } catch (error) {
+      console.log(error);
       if (error.response.data.message === "Bad Request") {
         navigate("/404");
       }
-      console.log(error);
     }
   };
 

@@ -9,14 +9,14 @@ const Hero = () => {
   // };
 
   return (
-    <div className="flex flex-col sm:flex-col md:flex-col lg:flex-row xl:flex-row justify-evenly items-center mt-2">
+    <div className="flex flex-col text-center sm:flex-col sm:text-left md:flex-col md:text-left lg:flex-row lg:text-left xl:flex-row xl:text-left justify-evenly items-center mt-3 mb-2">
       <div>
-        <h1 className="text-4xl font-bold w-96 text-blue-600 mb-6">
+        <h1 className="text-xl sm:text-3xl md:text-4xl lg:text-4xl xl:text-4xl font-bold w-96 text-blue-600 mb-6">
           Spot Store by VITspot Buy & Sell Items
         </h1>
         <p className="w-80 text-gray-400 mb-6">
           Buy & Sell items like books, electronics, cycles etc in VIT using Spot
-          Shop
+          Store
         </p>
         <div>
           <Button

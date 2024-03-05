@@ -68,12 +68,12 @@ const Header = () => {
               Profile
             </DropdownItem>
             <DropdownDivider />
-            <DropdownItem as={Link} to={"/user/product/create"}>
-              Create Product
-            </DropdownItem>
-            <DropdownDivider />
             <DropdownItem as={Link} to={"/user/products"}>
               My Products
+            </DropdownItem>
+            <DropdownDivider />
+            <DropdownItem as={Link} to={"/user/product/create"}>
+              Create Product
             </DropdownItem>
             <DropdownDivider />
             <DropdownItem onClick={handleSignOut}>Sign out</DropdownItem>

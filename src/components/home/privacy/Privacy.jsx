@@ -4,9 +4,9 @@ import { Link } from "react-router-dom";
 
 const Privacy = () => {
   return (
-    <div className="flex flex-col sm:flex-col md:flex-col lg:flex-row-reverse xl:flex-row-reverse items-center justify-evenly mt-8 mb-6">
+    <div className="flex flex-col text-center sm:flex-col sm:text-left md:flex-col md:text-left lg:flex-row lg:text-left xl:flex-row xl:text-left justify-evenly items-center mt-8 mb-6">
       <div>
-        <h1 className="text-3xl font-bold w-96 text-blue-600 mb-6">
+        <h1 className="text-xl sm:text-3xl md:text-4xl lg:text-4xl xl:text-4xl font-bold w-96 text-blue-600  mb-6">
           Your Privacy Is Our Priority
         </h1>
         <p className="w-80 text-gray-400 mb-6">
@@ -28,7 +28,7 @@ const Privacy = () => {
             "https://firebasestorage.googleapis.com/v0/b/spot-store-37a5a.appspot.com/o/spot-store-assets%2Fimages%2Fprivacy.svg?alt=media&token=ad04c283-8db5-4b7a-b723-c99644b63688"
           }
           alt="privacy spot store image"
-          width="425px"
+          width="380px"
           className="mt-4"
         />
       </div>

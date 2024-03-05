@@ -1,16 +1,27 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import ProductCarousel from "./ProductCarousel";
-import { Button } from "flowbite-react";
+import { Button, Spinner } from "flowbite-react";
 import { getProductData } from "../../api/requests/products/products";
 import Loader from "../utils/Loader";
 import { getUserById } from "../../api/requests/users/user";
+import HelperModal from "../utils/HelperModal";
+import { buyerDetailsEmail } from "../../api/requests/products/elasticEmail";
+import Cookies from "js-cookie";
+import { jwtDecode } from "jwt-decode";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ProductDetails = () => {
-  window.scrollTo(0, 0);
+  const token = Cookies.get("token");
+  const decoded = jwtDecode(token);
 
   const [productData, setProductData] = useState({});
   const [ownerName, setOwnerName] = useState("");
+  const [ownerEmail, setOwnerEmail] = useState("");
+  const [ownerNumber, setOwnerNumber] = useState("");
+  const [openModal, setOpenModal] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const params = useParams();
 
@@ -28,6 +39,8 @@ const ProductDetails = () => {
       if (productData.owner_id) {
         const user = await getUserById(productData.owner_id);
         setOwnerName(user.user.firstName + " " + user.user.lastName);
+        setOwnerEmail(user.user.email);
+        setOwnerNumber(user.user.phoneNumber);
       }
     } catch (error) {
       console.log(error);
@@ -56,6 +69,28 @@ const ProductDetails = () => {
 
     return formattedDate;
   }
+
+  const sendSellerInfo = async (e) => {
+    e.preventDefault();
+    try {
+      setLoading(true);
+      const email = await buyerDetailsEmail(
+        decoded.email,
+        decoded.firstName,
+        ownerName,
+        ownerNumber,
+        ownerEmail,
+        productData.title
+      );
+      setLoading(false);
+      toast.success("Seller Info sent to your email");
+      setOpenModal(true);
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
+      toast.error("Something went wrong");
+    }
+  };
 
   return (
     <section className="bg-slate-50 pb-6">
@@ -129,12 +164,38 @@ const ProductDetails = () => {
                   className="w-80 md:w-fit lg:w-fit xl:w-fit"
                   gradientDuoTone="purpleToBlue"
                   size={"sm"}
+                  onClick={sendSellerInfo}
+                  disabled={productData.owner_id === decoded.userId}
                 >
-                  Get Seller Contact
+                  {loading ? (
+                    <>
+                      <Spinner
+                        aria-label="Alternate spinner button example"
+                        size="sm"
+                      />
+                      <span className="pl-3">Please wait...</span>
+                    </>
+                  ) : (
+                    <> Get Seller Contact</>
+                  )}
                 </Button>
               </div>
             </div>
           </div>
+          <HelperModal openModal={openModal} setOpenModal={setOpenModal} />
+          <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+            transition:Bounce
+          />
         </div>
       ) : (
         <Loader />

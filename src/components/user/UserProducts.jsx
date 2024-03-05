@@ -3,6 +3,8 @@ import ProductCard from "../product/ProductCard";
 import Cookies from "js-cookie";
 import { getUserProducts } from "../../api/requests/users/user";
 import Loader from "../utils/Loader";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const UserProducts = () => {
   const [userProducts, setUserProducts] = useState([]);
@@ -12,6 +14,9 @@ const UserProducts = () => {
   const fetchUserProducts = async () => {
     try {
       const products = await getUserProducts(token);
+      if (products.length === 0) {
+        toast.warn("You haven't listed any products yet");
+      }
       setUserProducts(products.products);
     } catch (error) {
       console.log(error);
@@ -47,6 +52,19 @@ const UserProducts = () => {
       ) : (
         <Loader />
       )}
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition:Bounce
+      />
     </div>
   );
 };

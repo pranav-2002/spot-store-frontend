@@ -14,7 +14,7 @@ const UserProducts = () => {
   const fetchUserProducts = async () => {
     try {
       const products = await getUserProducts(token);
-      if (products.length === 0) {
+      if (products.products.length === 0) {
         toast.warn("You haven't listed any products yet");
       }
       setUserProducts(products.products);

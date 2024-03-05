@@ -4,7 +4,6 @@ import { Suspense, lazy } from "react";
 
 import Loader from "./components/utils/Loader";
 import PrivateRoutes from "./components/routes/PrivateRoutes";
-import ContactSupport from "./components/support/ContactSupport";
 import PageNotFound from "./components/home/PageNotFound/PageNotFound";
 
 const Header = lazy(() => import("./components/navbar/Header"));
@@ -22,6 +21,10 @@ const UserProfile = lazy(() => import("./components/user/UserProfile"));
 const UserProducts = lazy(() => import("./components/user/UserProducts"));
 const ProductEdit = lazy(() => import("./components/user/ProductEdit"));
 const CreateProduct = lazy(() => import("./components/user/CreateProduct"));
+const ContactSupport = lazy(() =>
+  import("./components/support/ContactSupport")
+);
+const BottomFooter = lazy(() => import("./components/footer/BottomFooter"));
 
 function App() {
   return (
@@ -52,6 +55,7 @@ function App() {
             <Route path="/404" element={<PageNotFound />} />
             <Route path="*" element={<PageNotFound />} />
           </Routes>
+          <BottomFooter />
         </Suspense>
       </div>
     </>

@@ -20,11 +20,10 @@ export const buyerDetailsEmail = async (
         {
           ContentType: "HTML",
           Content: `
-                  <h5>Hello ${username}, here are the seller details</h5>
-                  <br />
-                  <h6>Seller Name: ${sellerName}</h6>
-                  <h6>Seller Phone Number: ${sellerContact}</h6>
-                  <h6>Seller Email: ${sellerEmail}</h6>
+                  <h3>Hello ${username}, here are the seller details</h3>
+                  <h4>Seller Name: ${sellerName}</h4>
+                  <h4>Seller Phone Number: ${sellerContact}</h4>
+                  <h4>Seller Email: ${sellerEmail}</h4>
                   <br/>
                   <p>Thank you for using Spot Store</p>
               `,

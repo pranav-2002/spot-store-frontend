@@ -13,7 +13,7 @@ function HelperModal({ openModal, setOpenModal }) {
       <Modal.Body>
         <div className="text-center">
           <h3 className="mb-5 text-lg font-bold text-gray-500 dark:text-gray-400">
-            Buyer contact details have been sent to your email address
+            Seller contact details have been sent to your email address
           </h3>
           <div className="flex justify-center gap-4">
             <Button color="success" onClick={() => setOpenModal(false)}>

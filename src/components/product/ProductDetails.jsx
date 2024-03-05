@@ -11,9 +11,15 @@ import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
 
 const ProductDetails = () => {
-  const token = Cookies.get("token");
+  const navigate = useNavigate();
+
+  const token =
+    Cookies.get("token") ||
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
+
   const decoded = jwtDecode(token);
 
   const [productData, setProductData] = useState({});
@@ -72,6 +78,13 @@ const ProductDetails = () => {
 
   const sendSellerInfo = async (e) => {
     e.preventDefault();
+    if (
+      token ===
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+    ) {
+      navigate("/login");
+      return;
+    }
     try {
       setLoading(true);
       const email = await buyerDetailsEmail(

@@ -12,7 +12,7 @@ const AllProducts = () => {
     try {
       const result = await allProducts();
       setProducts(result.products);
-      setSearchResults(result.products);
+      setSearchResults(result.products.reverse());
     } catch (error) {
       console.log(error);
     }

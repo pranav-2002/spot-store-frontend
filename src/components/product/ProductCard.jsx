@@ -8,9 +8,15 @@ import {
 } from "../../api/requests/products/products";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import UserProductsAtom from "../../recoil/atoms/UserProductsAtom";
 
 const ProductCard = ({ id, name, price, imageUrl, sold, ownerMode }) => {
   const [isLoading, setIsLoading] = useState(false);
+  const [disabled, setDisabled] = useState(false);
+
+  const productsData = useRecoilValue(UserProductsAtom);
+  const setProductsData = useSetRecoilState(UserProductsAtom);
 
   const token = Cookies.get("token");
 
@@ -18,8 +24,12 @@ const ProductCard = ({ id, name, price, imageUrl, sold, ownerMode }) => {
     e.preventDefault();
     try {
       setIsLoading(true);
-      await deleteAProduct(id, token);
-      toast.success("Product Deleted. Please refresh the page");
+      const deleted = await deleteAProduct(id, token);
+      toast.success(deleted.message);
+      const filteredProducts = productsData.filter(
+        (product) => product._id !== id
+      );
+      setProductsData(filteredProducts);
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
@@ -32,8 +42,9 @@ const ProductCard = ({ id, name, price, imageUrl, sold, ownerMode }) => {
     e.preventDefault();
     try {
       setIsLoading(true);
-      await markProductAsSold({ productId: id }, token);
-      toast.success("Marked As Sold. Please refresh the page");
+      const sold = await markProductAsSold({ productId: id }, token);
+      toast.success(sold.message);
+      setDisabled(true);
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
@@ -77,7 +88,13 @@ const ProductCard = ({ id, name, price, imageUrl, sold, ownerMode }) => {
               size={"xs"}
               color="success"
               onClick={markAsSold}
-              disabled={sold}
+              disabled={
+                sold === true && disabled === false
+                  ? true
+                  : sold === false && disabled === true
+                  ? true
+                  : false
+              }
             >
               {isLoading ? (
                 <>

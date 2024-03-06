@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import ProductCard from "../product/ProductCard";
 import Cookies from "js-cookie";
 import { getUserProducts } from "../../api/requests/users/user";
 import Loader from "../utils/Loader";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useRecoilState } from "recoil";
+import UserProductsAtom from "../../recoil/atoms/UserProductsAtom";
 
 const UserProducts = () => {
-  const [userProducts, setUserProducts] = useState([]);
+  const [userProducts, setUserProducts] = useRecoilState(UserProductsAtom);
 
   const token = Cookies.get("token");
 

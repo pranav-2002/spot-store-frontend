@@ -3,7 +3,7 @@ import { Card } from "flowbite-react";
 
 const CategoriesCard = ({ title, description, imageUrl }) => {
   return (
-    <div className="max-w-xs mb-8 mt-4 cursor-pointer">
+    <div className="max-w-xs mb-8 mt-4 cursor-pointer transform transition duration-500 hover:scale-105">
       <Card className="h-full">
         <img
           src={imageUrl}

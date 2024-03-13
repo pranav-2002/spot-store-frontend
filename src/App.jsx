@@ -5,6 +5,7 @@ import { Suspense, lazy } from "react";
 import Loader from "./components/utils/Loader";
 import PrivateRoutes from "./components/routes/PrivateRoutes";
 import PageNotFound from "./components/home/PageNotFound/PageNotFound";
+import ScrollToTop from "./components/utils/ScrollToTop";
 
 const Header = lazy(() => import("./components/navbar/Header"));
 const Home = lazy(() => import("./components/home/Home"));
@@ -31,6 +32,7 @@ function App() {
     <>
       <div className="app">
         <Suspense fallback={<Loader />}>
+          <ScrollToTop />
           <Header />
           <Routes>
             <Route path="/" element={<Home />} />

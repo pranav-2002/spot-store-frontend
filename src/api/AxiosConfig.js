@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosRequest = async (endpoint, method, data, token) => {
-  let baseUrl = "https://spot-store-backend.onrender.com/api/v1/";
+  let baseUrl = "https://spot-store-backend.vercel.app/api/v1";
   const url = baseUrl + endpoint;
   const headers = {
     "content-type": "application/json",

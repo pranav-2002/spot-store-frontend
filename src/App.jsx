@@ -26,6 +26,9 @@ const ContactSupport = lazy(() =>
   import("./components/support/ContactSupport")
 );
 const BottomFooter = lazy(() => import("./components/footer/BottomFooter"));
+const ForgotPassword = lazy(() =>
+  import("./components/forgot_password/ForgotPassword")
+);
 
 function App() {
   return (
@@ -45,6 +48,7 @@ function App() {
               element={<CategoriesPage />}
             />
             <Route path="/support" element={<ContactSupport />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route element={<PrivateRoutes />}>
               <Route path="/user/profile" element={<UserProfile />} />
               <Route path="/user/products" element={<UserProducts />} />

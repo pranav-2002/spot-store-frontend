@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { Button, Spinner } from "flowbite-react";
-import { ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import EmailSentModal from "../utils/EmailSentModal";
+import { forgotPasswordRequest } from "../../api/requests/auth/auth";
 
 const ForgotPassword = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -13,9 +14,21 @@ const ForgotPassword = () => {
     email: "",
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setOpenModal(true);
+    try {
+      setIsLoading(true);
+      const forgotPasswordLink = await forgotPasswordRequest(
+        forgotPasswordData
+      );
+      setIsLoading(false);
+      setOpenModal(true);
+      setForgotPasswordData({ email: "" });
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false);
+      toast.error(error.response.data.message);
+    }
   };
 
   return (
@@ -67,7 +80,7 @@ const ForgotPassword = () => {
                     <span className="pl-3">Please wait...</span>
                   </>
                 ) : (
-                  <> Reset Password</>
+                  <> Send Reset Link</>
                 )}
               </Button>
             </form>

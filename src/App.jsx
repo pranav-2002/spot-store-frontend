@@ -29,6 +29,9 @@ const BottomFooter = lazy(() => import("./components/footer/BottomFooter"));
 const ForgotPassword = lazy(() =>
   import("./components/forgot_password/ForgotPassword")
 );
+const ResetPassword = lazy(() =>
+  import("./components/forgot_password/ResetPassword")
+);
 
 function App() {
   return (
@@ -49,6 +52,10 @@ function App() {
             />
             <Route path="/support" element={<ContactSupport />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route
+              path="/reset-password/:verificationToken"
+              element={<ResetPassword />}
+            />
             <Route element={<PrivateRoutes />}>
               <Route path="/user/profile" element={<UserProfile />} />
               <Route path="/user/products" element={<UserProducts />} />

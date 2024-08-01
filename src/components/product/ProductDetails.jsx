@@ -6,7 +6,7 @@ import { getProductData } from "../../api/requests/products/products";
 import Loader from "../utils/Loader";
 import { getUserById } from "../../api/requests/users/user";
 import HelperModal from "../utils/HelperModal";
-import { buyerDetailsEmail } from "../../api/requests/products/elasticEmail";
+import { buyerDetailsEmail } from "../../api/requests/products/sendMail";
 import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
 import { ToastContainer, toast } from "react-toastify";

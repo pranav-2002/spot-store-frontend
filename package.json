@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@aws-sdk/client-ses": "^3.621.0",
     "autoprefixer": "^10.4.17",
     "axios": "^1.6.7",
     "firebase": "^10.8.1",

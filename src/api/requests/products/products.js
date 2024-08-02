@@ -21,7 +21,7 @@ export const deleteAProduct = async (productId, token) => {
 };
 
 export const markProductAsSold = async (data, token) => {
-  const res = await axiosRequest("products/sold", "PATCH", data, token);
+  const res = await axiosRequest("/products/sold", "PATCH", data, token);
   return res;
 };
 
